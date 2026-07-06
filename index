@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<title>แจ้งฝากผ้า - Wash Me Pls Laundry</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#6EC6E9;
+    --blue-deep:#3f9bc7;
+    --card-border:#cdeaf9;
+    --red:#E8432F;
+    --red-dark:#c9331f;
+    --cream:#fdf8ee;
+    --text:#2b2b2b;
+    --gray:#6b7280;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  button, label, .option{touch-action:manipulation;}
+  body{
+    margin:0;
+    font-family:'Kanit',sans-serif;
+    background:var(--blue);
+    color:var(--text);
+    padding-bottom:40px;
+  }
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+  .app{max-width:480px;margin:0 auto;padding:16px;width:100%;}
+
+  .topbar{
+    text-align:center;
+    padding:22px 16px 26px;
+    margin-bottom:18px;
+  }
+  .logo-badge{
+    width:92px;height:92px;border-radius:50%;
+    background:var(--red);
+    border:4px solid var(--cream);
+    display:flex;align-items:center;justify-content:center;
+    font-size:44px;
+    margin:0 auto 10px;
+    box-shadow:0 4px 0 rgba(0,0,0,0.15);
+    overflow:hidden;
+  }
+  .logo-badge img{
+    width:100%;height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .topbar h1{
+    margin:0;
+    font-family:'Fredoka',sans-serif;
+    font-size:22px;
+    letter-spacing:0.5px;
+    color:var(--cream);
+    -webkit-text-stroke:1.5px #1f2937;
+    text-stroke:1.5px #1f2937;
+  }
+  .topbar p{
+    margin:6px 0 0;
+    font-size:13px;
+    color:var(--cream);
+    font-weight:500;
+  }
+
+  .card{
+    background:#fff;
+    border:3px solid var(--card-border);
+    border-radius:20px;
+    padding:16px;
+    margin-bottom:14px;
+    box-shadow:0 4px 0 rgba(63,155,199,0.25);
+  }
+  .card h2{
+    display:flex;align-items:center;gap:8px;
+    font-size:15px;margin:0 0 12px;color:var(--blue-deep);
+    font-weight:600;
+  }
+  .step-num{
+    width:24px;height:24px;border-radius:50%;
+    background:var(--red);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fredoka',sans-serif;
+    font-size:13px;flex-shrink:0;
+  }
+
+  .option-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+  }
+  .option{
+    position:relative;
+    border:2px solid var(--card-border);
+    border-radius:14px;
+    padding:10px 6px;
+    text-align:center;
+    font-size:13px;
+    cursor:pointer;
+    transition:all .15s ease;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .option input{position:absolute;opacity:0;pointer-events:none;}
+  .option span{line-height:1.4;}
+  .option input:checked + span{font-weight:600;}
+  .option:has(input:checked){
+    border-color:var(--red);
+    background:#fdeceA;
+    color:var(--red-dark);
+  }
+  .checkbox-option{
+    grid-column:1/-1;
+    justify-content:flex-start;
+    gap:10px;
+    text-align:left;
+    padding:12px;
+  }
+  .hint{
+    font-size:12px;color:var(--gray);margin:8px 2px 0;
+  }
+  .free-tag{
+    display:inline-block;
+    background:#e7f8ec;
+    color:#1a8a4a;
+    font-size:11px;
+    font-weight:600;
+    padding:2px 8px;
+    border-radius:20px;
+    margin-left:6px;
+  }
+
+  .qty-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    border:2px solid var(--card-border);
+    border-radius:14px;
+    padding:10px 12px;
+  }
+  .qty-row + .qty-row{margin-top:8px;}
+  .qty-label{font-size:13.5px;line-height:1.4;}
+  .qty-label small{display:block;color:var(--gray);font-size:11.5px;margin-top:2px;}
+  .qty-control{
+    display:flex;align-items:center;gap:10px;flex-shrink:0;
+  }
+  .qty-btn{
+    width:36px;height:36px;
+    border:none;border-radius:50%;
+    background:var(--red);color:#fff;
+    font-family:'Fredoka',sans-serif;
+    font-size:18px;font-weight:600;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    line-height:1;
+    flex-shrink:0;
+    touch-action:manipulation;
+  }
+  .qty-btn:active{transform:scale(0.92);}
+  .qty-btn.minus{background:#cbd5e1;color:#334155;}
+  .qty-value{
+    min-width:20px;text-align:center;
+    font-family:'Fredoka',sans-serif;
+    font-size:15px;font-weight:600;
+  }
+
+  input[type="text"], input[type="tel"], select, textarea{
+    width:100%;
+    border:2px solid var(--card-border);
+    border-radius:12px;
+    padding:12px;
+    font-family:'Kanit',sans-serif;
+    font-size:16px;
+    margin-bottom:10px;
+    color:var(--text);
+    -webkit-appearance:none;
+    appearance:none;
+    background:#fff;
+  }
+  select{
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path d='M5 7l5 6 5-6' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat;
+    background-position:right 12px center;
+    padding-right:36px;
+  }
+  textarea{resize:vertical;min-height:60px;margin-bottom:0;}
+  input:focus, textarea:focus{outline:none;border-color:var(--blue-deep);}
+
+  .submit-btn{
+    width:100%;
+    background:var(--red);
+    color:#fff;
+    border:none;
+    border-bottom:4px solid var(--red-dark);
+    padding:16px;
+    border-radius:16px;
+    font-family:'Fredoka',sans-serif;
+    font-size:17px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .submit-btn:active{transform:translateY(2px);border-bottom-width:2px;}
+
+  .summary pre{
+    white-space:pre-wrap;
+    font-family:'Kanit',sans-serif;
+    background:#f4fbff;
+    padding:14px;
+    border-radius:14px;
+    font-size:13.5px;
+    line-height:1.7;
+    color:var(--text);
+    border:2px dashed var(--card-border);
+  }
+  .copy-btn{
+    width:100%;
+    background:var(--blue-deep);
+    color:#fff;
+    border:none;
+    border-bottom:4px solid #2c7ba3;
+    padding:15px;
+    border-radius:16px;
+    font-family:'Fredoka',sans-serif;
+    font-size:15px;
+    font-weight:600;
+    margin-top:10px;
+    cursor:pointer;
+  }
+  .copy-btn:active{transform:translateY(2px);border-bottom-width:2px;}
+  .edit-btn{
+    width:100%;
+    background:none;
+    border:none;
+    color:var(--gray);
+    padding:12px;
+    font-family:'Kanit',sans-serif;
+    font-size:14px;
+    margin-top:6px;
+    cursor:pointer;
+    text-decoration:underline;
+  }
+  .hidden{display:none;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="topbar">
+    <div class="logo-badge"><img src="logo.png" alt="Wash Me Pls Laundry logo" onerror="this.parentElement.textContent='🧺'"></div>
+    <h1>WASH ME PLS LAUNDRY</h1>
+    <p>แจ้งฝากผ้าออนไลน์ · สายขี้เกียจพิมพ์</p>
+  </div>
+
+  <form id="orderForm">
+
+    <section class="card">
+      <h2><span class="step-num">1</span> เลือกบริการ</h2>
+      <div class="option-grid">
+        <label class="option">
+          <input type="radio" name="service" value="wash" data-label="ซักอย่างเดียว">
+          <span>🧼<br>ซักอย่างเดียว</span>
+        </label>
+        <label class="option">
+          <input type="radio" name="service" value="dry" data-label="อบอย่างเดียว">
+          <span>🔥<br>อบอย่างเดียว</span>
+        </label>
+        <label class="option">
+          <input type="radio" name="service" value="both" data-label="ซัก + อบ" checked>
+          <span>🧼🔥<br>ซัก+อบ</span>
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2><span class="step-num">2</span> ขนาดผ้าโดยประมาณ (ขนาดตะกร้า)</h2>
+      <div class="qty-row">
+        <div class="qty-label">ตะกร้า S<small>50 บาท/ใบ</small></div>
+        <div class="qty-control">
+          <button type="button" class="qty-btn minus" data-target="sizeSQty" data-step="-1">−</button>
+          <span class="qty-value" id="sizeSQty">0</span>
+          <button type="button" class="qty-btn" data-target="sizeSQty" data-step="1">+</button>
+        </div>
+      </div>
+      <div class="qty-row">
+        <div class="qty-label">ตะกร้า M<small>60 บาท/ใบ</small></div>
+        <div class="qty-control">
+          <button type="button" class="qty-btn minus" data-target="sizeMQty" data-step="-1">−</button>
+          <span class="qty-value" id="sizeMQty">1</span>
+          <button type="button" class="qty-btn" data-target="sizeMQty" data-step="1">+</button>
+        </div>
+      </div>
+      <div class="qty-row">
+        <div class="qty-label">ตะกร้า L<small>70 บาท/ใบ</small></div>
+        <div class="qty-control">
+          <button type="button" class="qty-btn minus" data-target="sizeLQty" data-step="-1">−</button>
+          <span class="qty-value" id="sizeLQty">0</span>
+          <button type="button" class="qty-btn" data-target="sizeLQty" data-step="1">+</button>
+        </div>
+      </div>
+      <p class="hint">*เลือกได้มากกว่า 1 ขนาด ถ้าผ้าเยอะกว่าตะกร้าเดียว</p>
+    </section>
+
+    <section class="card">
+      <h2><span class="step-num">3</span> น้ำยาซัก / น้ำยาปรับผ้านุ่ม</h2>
+      <div class="qty-row">
+        <div class="qty-label">🧴 น้ำยาซักของร้าน<small>ซองละ 10 บาท</small></div>
+        <div class="qty-control">
+          <button type="button" class="qty-btn minus" data-target="detergentQty" data-step="-1">−</button>
+          <span class="qty-value" id="detergentQty">0</span>
+          <button type="button" class="qty-btn" data-target="detergentQty" data-step="1">+</button>
+        </div>
+      </div>
+      <div class="qty-row">
+        <div class="qty-label">💧 น้ำยาปรับผ้านุ่มของร้าน<small>ซองละ 10 บาท</small></div>
+        <div class="qty-control">
+          <button type="button" class="qty-btn minus" data-target="softenerQty" data-step="-1">−</button>
+          <span class="qty-value" id="softenerQty">0</span>
+          <button type="button" class="qty-btn" data-target="softenerQty" data-step="1">+</button>
+        </div>
+      </div>
+      <p class="hint">*ถ้านำน้ำยา/ปรับผ้านุ่มมาเองไม่คิดเพิ่มค่ะ กดจำนวนซองที่ต้องการให้ร้านเตรียมให้</p>
+    </section>
+
+    <section class="card">
+      <h2><span class="step-num">4</span> ถุงเท้า / กางเกงใน</h2>
+      <label class="option checkbox-option">
+        <input type="checkbox" id="socks">
+        <span>🧦 มีถุงเท้า/กางเกงในที่ต้องแยกซัก <span class="free-tag">ไม่คิดเพิ่ม</span></span>
+      </label>
+    </section>
+
+    <section class="card">
+      <h2><span class="step-num">5</span> เวลาที่ต้องการมารับผ้า</h2>
+      <select id="pickupTime">
+        <option value="">-- เลือกเวลา --</option>
+      </select>
+      <p class="hint">*ร้านเปิด 24 ชม. แต่ให้มารับผ้าได้ไม่เกิน 19:00 น.</p>
+    </section>
+
+    <section class="card">
+      <h2><span class="step-num">6</span> ข้อมูลติดต่อ</h2>
+      <input type="text" id="name" placeholder="ชื่อลูกค้า" required>
+      <input type="tel" id="phone" placeholder="เบอร์โทร" required>
+      <textarea id="note" placeholder="หมายเหตุเพิ่มเติม (ถ้ามี) เช่น ผ้าสีตกง่าย ระวังผ้าเปื้อนหนัก"></textarea>
+    </section>
+
+    <button type="submit" class="submit-btn">ยืนยันรายการ ✅</button>
+  </form>
+
+  <div id="summary" class="card summary hidden">
+    <h2>📋 สรุปรายการฝากผ้า</h2>
+    <pre id="summaryText"></pre>
+    <button id="copyBtn" type="button" class="copy-btn">📋 คัดลอกข้อความ</button>
+    <button id="editBtn" type="button" class="edit-btn">← แก้ไขรายการ</button>
+  </div>
+
+</div>
+
+<script>
+  const form = document.getElementById('orderForm');
+  const summary = document.getElementById('summary');
+  const summaryText = document.getElementById('summaryText');
+  const copyBtn = document.getElementById('copyBtn');
+  const editBtn = document.getElementById('editBtn');
+
+  (function populatePickupTimes(){
+    const select = document.getElementById('pickupTime');
+    for(let h = 0; h <= 19; h++){
+      for(let m = 0; m < 60; m += 30){
+        if(h === 19 && m > 0) break;
+        const hh = String(h).padStart(2, '0');
+        const mm = String(m).padStart(2, '0');
+        const val = `${hh}:${mm}`;
+        const opt = document.createElement('option');
+        opt.value = val;
+        opt.textContent = `${val} น.`;
+        select.appendChild(opt);
+      }
+    }
+  })();
+
+  document.querySelectorAll('.qty-btn').forEach(btn => {
+    btn.addEventListener('click', function(){
+      const targetEl = document.getElementById(this.dataset.target);
+      const step = parseInt(this.dataset.step, 10);
+      let val = parseInt(targetEl.textContent, 10) + step;
+      if(val < 0) val = 0;
+      targetEl.textContent = val;
+    });
+  });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const service = document.querySelector('input[name="service"]:checked');
+    const sizeSQty = parseInt(document.getElementById('sizeSQty').textContent, 10);
+    const sizeMQty = parseInt(document.getElementById('sizeMQty').textContent, 10);
+    const sizeLQty = parseInt(document.getElementById('sizeLQty').textContent, 10);
+    const detergentQty = parseInt(document.getElementById('detergentQty').textContent, 10);
+    const softenerQty = parseInt(document.getElementById('softenerQty').textContent, 10);
+    const socks = document.getElementById('socks').checked;
+    const pickupTime = document.getElementById('pickupTime').value;
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const note = document.getElementById('note').value.trim();
+
+    if(!name || !phone){
+      alert('กรุณากรอกชื่อและเบอร์โทรค่ะ');
+      return;
+    }
+
+    if((sizeSQty + sizeMQty + sizeLQty) === 0){
+      alert('กรุณาเลือกจำนวนตะกร้าอย่างน้อย 1 ใบค่ะ');
+      return;
+    }
+
+    if(pickupTime && pickupTime > '19:00'){
+      alert('ร้านให้มารับผ้าได้ไม่เกิน 19:00 น. ค่ะ กรุณาเลือกเวลาใหม่');
+      return;
+    }
+
+    const sizePriceS = sizeSQty * 50;
+    const sizePriceM = sizeMQty * 60;
+    const sizePriceL = sizeLQty * 70;
+    const basketTotal = sizePriceS + sizePriceM + sizePriceL;
+    const detergentPrice = detergentQty * 10;
+    const softenerPrice = softenerQty * 10;
+    const total = basketTotal + detergentPrice + softenerPrice;
+
+    const basketLines = [];
+    if(sizeSQty > 0) basketLines.push(`S x${sizeSQty} (${sizePriceS} บาท)`);
+    if(sizeMQty > 0) basketLines.push(`M x${sizeMQty} (${sizePriceM} บาท)`);
+    if(sizeLQty > 0) basketLines.push(`L x${sizeLQty} (${sizePriceL} บาท)`);
+    const basketLine = basketLines.join(', ');
+
+    const detergentLine = detergentQty > 0
+      ? `ใช้ของร้าน ${detergentQty} ซอง (+${detergentPrice} บาท)`
+      : 'นำมาเอง';
+    const softenerLine = softenerQty > 0
+      ? `ใช้ของร้าน ${softenerQty} ซอง (+${softenerPrice} บาท)`
+      : 'นำมาเอง';
+    const socksLine = socks ? 'มี (ไม่คิดเพิ่ม)' : 'ไม่มี';
+    const pickupLine = pickupTime ? `${pickupTime} น.` : 'ยังไม่ระบุ';
+
+    const text =
+`📋 แจ้งฝากผ้า - Wash Me Pls Laundry
+ชื่อ: ${name}
+เบอร์โทร: ${phone}
+บริการ: ${service.dataset.label}
+ขนาดตะกร้า: ${basketLine}
+น้ำยาซัก: ${detergentLine}
+น้ำยาปรับผ้านุ่ม: ${softenerLine}
+ถุงเท้า/กางเกงใน: ${socksLine}
+เวลาที่ต้องการมารับผ้า: ${pickupLine}
+หมายเหตุ: ${note || '-'}
+
+💰 รวมประมาณ ${total} บาท`;
+
+    summaryText.textContent = text;
+    form.classList.add('hidden');
+    summary.classList.remove('hidden');
+  });
+
+  copyBtn.addEventListener('click', function(){
+    const text = summaryText.textContent;
+    const done = () => {
+      copyBtn.textContent = '✅ คัดลอกแล้ว! ไปวางในแชทไลน์ได้เลย';
+      setTimeout(()=>{ copyBtn.textContent = '📋 คัดลอกข้อความ'; }, 2500);
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done).catch(()=>{
+        fallbackCopy(text); done();
+      });
+    } else {
+      fallbackCopy(text); done();
+    }
+  });
+
+  function fallbackCopy(text){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+
+  editBtn.addEventListener('click', function(){
+    summary.classList.add('hidden');
+    form.classList.remove('hidden');
+  });
+</script>
+
+</body>
+</html>
