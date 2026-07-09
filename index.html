@@ -7,18 +7,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --primary: #4F46E5;
-    --primary-light: #EEF2F6;
-    --accent: #FF5E7E;
-    --accent-hover: #E04D6C;
-    --accent-bg: #FFEBEF;
-    --bg-gradient: linear-gradient(135deg, #A5F3FC 0%, #C084FC 100%);
-    --card-bg: rgba(255, 255, 255, 0.92);
-    --card-border: rgba(255, 255, 255, 0.6);
-    --text-main: #2D3748;
-    --text-muted: #718096;
+    --primary: #1E2D4A;          /* Retro Dark Navy */
+    --primary-light: #E8F1F8;    /* Soft Navy Tint */
+    --accent: #E05A36;           /* Retro Orange-Red */
+    --accent-hover: #C54422;     
+    --accent-bg: #FDF1ED;        
+    --bg-color: #7BB8E4;         /* Retro Sky Blue */
+    --cream: #F8F6EF;            /* Mascot Cream */
+    --text-main: #1E2D4A;
+    --text-muted: #536480;
     --success: #10B981;
-    --success-bg: #E6FBF4;
+    --success-bg: #ECFDF5;
   }
 
   * {
@@ -29,8 +28,7 @@
   body {
     margin: 0;
     font-family: 'Kanit', sans-serif;
-    background: var(--bg-gradient);
-    background-attachment: fixed;
+    background: var(--bg-color);
     color: var(--text-main);
     min-height: 100vh;
     padding-bottom: 60px;
@@ -49,10 +47,10 @@
   .bubble {
     position: absolute;
     bottom: -100px;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 246, 239, 0.4);
     border-radius: 50%;
-    backdrop-filter: blur(1px);
-    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(0.5px);
+    box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.6);
     animation: rise 12s infinite ease-in;
   }
   @keyframes rise {
@@ -69,62 +67,53 @@
     width: 100%;
   }
 
-  /* Topbar */
+  /* Topbar with Retro Cartoon style */
   .topbar {
     text-align: center;
-    padding: 30px 16px 10px;
+    padding: 20px 16px 10px;
     margin-bottom: 16px;
     position: relative;
   }
   .logo-wrapper {
     position: relative;
-    width: 100px;
-    height: 100px;
-    margin: 0 auto 16px;
+    width: 130px;
+    height: 130px;
+    margin: 0 auto 12px;
   }
   .logo-badge {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: var(--accent);
-    border: 4px solid #fff;
+    background: var(--bg-color);
+    border: 4px solid var(--primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 48px;
-    box-shadow: 0 8px 24px rgba(255, 94, 126, 0.3);
+    box-shadow: 4px 4px 0px var(--primary);
     overflow: hidden;
     animation: float 4s ease-in-out infinite;
   }
   @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    0%, 100% { transform: translateY(0) rotate(-1deg); }
+    50% { transform: translateY(-6px) rotate(1deg); }
   }
   .logo-badge img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-  .logo-glow {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.4);
-    filter: blur(8px);
-    z-index: -1;
-    transform: scale(1.1);
+    display: block;
   }
   .topbar h1 {
     margin: 0;
     font-family: 'Fredoka', sans-serif;
     font-size: 26px;
     font-weight: 700;
-    color: #fff;
-    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    color: var(--cream);
+    text-shadow: 2px 2px 0px var(--primary);
     letter-spacing: 0.5px;
   }
 
-  /* Washing Machine Animation Visualizer (relocated to summary) */
+  /* Washing Machine Animation Visualizer (Retro outlines) */
   .machine-visualizer {
     display: flex;
     justify-content: center;
@@ -132,16 +121,16 @@
     margin: 10px 0 20px;
   }
   .washing-machine {
-    width: 75px;
-    height: 90px;
-    background: #fff;
+    width: 80px;
+    height: 95px;
+    background: var(--cream);
     border: 3px solid var(--primary);
-    border-radius: 12px;
+    border-radius: 14px;
     position: relative;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    box-shadow: 5px 5px 0px var(--primary);
   }
   .machine-top {
-    height: 20px;
+    height: 22px;
     border-bottom: 3px solid var(--primary);
     display: flex;
     align-items: center;
@@ -149,18 +138,20 @@
     justify-content: space-between;
   }
   .machine-dial {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: var(--accent);
+    border: 2px solid var(--primary);
   }
   .machine-display {
-    width: 28px;
-    height: 8px;
-    background: #e2e8f0;
-    border-radius: 2px;
-    font-size: 6px;
-    font-family: monospace;
+    width: 32px;
+    height: 10px;
+    background: var(--primary-light);
+    border: 2px solid var(--primary);
+    border-radius: 4px;
+    font-size: 7px;
+    font-family: 'Fredoka', monospace;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -168,10 +159,10 @@
     font-weight: bold;
   }
   .machine-door {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    border: 4px solid #94a3b8;
+    border: 3px solid var(--primary);
     position: absolute;
     bottom: 12px;
     left: 50%;
@@ -185,7 +176,7 @@
   .water {
     width: 100%;
     height: 50%;
-    background: rgba(56, 189, 248, 0.6);
+    background: rgba(123, 184, 228, 0.7);
     position: absolute;
     bottom: 0;
     left: 0;
@@ -194,25 +185,21 @@
     font-size: 20px;
     animation: spin 1.5s linear infinite;
     transform-origin: center;
+    z-index: 2;
   }
   @keyframes spin {
     100% { transform: rotate(360deg); }
   }
 
-  /* Glassmorphism Cards */
+  /* Retro Cartoon Cards */
   .card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    backdrop-filter: blur(12px);
-    border-radius: 24px;
+    background: var(--cream);
+    border: 3px solid var(--primary);
+    border-radius: 20px;
     padding: 20px;
     margin-bottom: 18px;
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.08);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  .card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(31, 38, 135, 0.12);
+    box-shadow: 5px 5px 0px var(--primary);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
   .card h2 {
     display: flex;
@@ -228,18 +215,18 @@
     height: 26px;
     border-radius: 50%;
     background: var(--accent);
-    color: #fff;
+    color: var(--cream);
+    border: 2px solid var(--primary);
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: 'Fredoka', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 700;
     flex-shrink: 0;
-    box-shadow: 0 3px 8px rgba(255, 94, 126, 0.2);
   }
 
-  /* Service Selection Grid */
+  /* Service Option Grid */
   .option-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -247,20 +234,21 @@
   }
   .option {
     position: relative;
-    border: 2px solid rgba(226, 232, 240, 0.8);
+    border: 3px solid var(--primary);
     background: #fff;
     border-radius: 16px;
     padding: 14px 8px;
     text-align: center;
     font-size: 13.5px;
-    font-weight: 500;
-    cursor:pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
+    color: var(--primary);
   }
   .option input {
     position: absolute;
@@ -272,16 +260,15 @@
     transition: transform 0.2s ease;
   }
   .option:hover .icon {
-    transform: scale(1.15);
+    transform: scale(1.1);
   }
   .option input:checked + span {
-    font-weight: 600;
+    font-weight: 700;
   }
   .option:has(input:checked) {
-    border-color: var(--accent);
-    background: var(--accent-bg);
-    color: var(--accent-hover);
-    box-shadow: 0 6px 16px rgba(255, 94, 126, 0.15);
+    background: var(--accent);
+    color: var(--cream);
+    box-shadow: inset 0px 4px 0px rgba(0,0,0,0.1);
   }
 
   /* Checkbox Option Style */
@@ -295,20 +282,20 @@
     cursor: pointer;
     text-align: left;
     width: 100%;
-    border: 2px solid rgba(226, 232, 240, 0.8);
+    border: 3px solid var(--primary);
     background: #fff;
     border-radius: 18px;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
   }
   .checkbox-option input {
     width: 20px;
     height: 20px;
+    border: 2px solid var(--primary);
     border-radius: 6px;
     accent-color: var(--accent);
     cursor: pointer;
   }
   .checkbox-option:has(input:checked) {
-    border-color: var(--success);
     background: var(--success-bg);
   }
 
@@ -319,6 +306,7 @@
     display: flex;
     align-items: center;
     gap: 4px;
+    font-weight: 500;
   }
   .free-tag {
     display: inline-block;
@@ -328,6 +316,7 @@
     font-weight: 600;
     padding: 2px 8px;
     border-radius: 20px;
+    border: 2px solid var(--primary);
     margin-left: auto;
   }
 
@@ -338,28 +327,26 @@
     justify-content: space-between;
     gap: 12px;
     background: #fff;
-    border: 2px solid rgba(226, 232, 240, 0.8);
+    border: 3px solid var(--primary);
     border-radius: 18px;
     padding: 12px 16px;
     margin-bottom: 10px;
-    transition: border-color 0.2s ease;
-  }
-  .qty-row:focus-within {
-    border-color: var(--primary);
   }
   .qty-row:last-of-type {
     margin-bottom: 0;
   }
   .qty-label {
     font-size: 14.5px;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1.4;
+    color: var(--primary);
   }
   .qty-label small {
     display: block;
     color: var(--text-muted);
     font-size: 12px;
     margin-top: 2px;
+    font-weight: 500;
   }
   .qty-control {
     display: flex;
@@ -370,46 +357,41 @@
   .qty-btn {
     width: 38px;
     height: 38px;
-    border: none;
+    border: 2px solid var(--primary);
     border-radius: 50%;
     background: var(--accent);
-    color: #fff;
+    color: var(--cream);
     font-family: 'Fredoka', sans-serif;
     font-size: 20px;
-    font-weight: 500;
+    font-weight: 700;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 10px rgba(255, 94, 126, 0.25);
-    transition: transform 0.1s ease, background-color 0.2s ease;
-  }
-  .qty-btn:hover {
-    background: var(--accent-hover);
+    box-shadow: 2px 2px 0px var(--primary);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
   }
   .qty-btn:active {
-    transform: scale(0.9);
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0px var(--primary);
   }
   .qty-btn.minus {
     background: #E2E8F0;
     color: #4A5568;
-    box-shadow: none;
-  }
-  .qty-btn.minus:hover {
-    background: #CBD5E1;
   }
   .qty-value {
     min-width: 24px;
     text-align: center;
     font-family: 'Fredoka', sans-serif;
     font-size: 17px;
-    font-weight: 600;
+    font-weight: 700;
+    color: var(--primary);
   }
 
   /* Inputs, Select, Textarea */
   input[type="text"], input[type="tel"], select, textarea {
     width: 100%;
-    border: 2px solid rgba(226, 232, 240, 0.8);
+    border: 3px solid var(--primary);
     border-radius: 16px;
     padding: 14px;
     font-family: 'Kanit', sans-serif;
@@ -418,16 +400,15 @@
     color: var(--text-main);
     background: #fff;
     outline: none;
-    transition: all 0.2s ease;
+    font-weight: 500;
   }
   input:focus, select:focus, textarea:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    background-color: var(--primary-light);
   }
   select {
     appearance: none;
     -webkit-appearance: none;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23718096' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%231E2D4A' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
     background-repeat: no-repeat;
     background-position: right 14px center;
     padding-right: 42px;
@@ -443,16 +424,15 @@
     position: sticky;
     bottom: 16px;
     z-index: 100;
-    background: rgba(79, 70, 229, 0.95);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: var(--cream);
+    border: 3px solid var(--primary);
     border-radius: 20px;
     padding: 14px 20px;
-    color: #fff;
+    color: var(--primary);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3);
+    box-shadow: 6px 6px 0px var(--primary);
     margin-bottom: 16px;
     animation: fadeInUp 0.4s ease-out;
   }
@@ -467,6 +447,7 @@
   .live-price-label {
     font-size: 12px;
     opacity: 0.85;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
@@ -474,32 +455,35 @@
     font-family: 'Fredoka', sans-serif;
     font-size: 24px;
     font-weight: 700;
+    color: var(--accent);
   }
 
   /* Estimated wash time indicator */
   .wash-time-est {
     font-size: 11px;
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--primary-light);
+    color: var(--primary);
+    border: 1px solid var(--primary);
     padding: 2px 8px;
     border-radius: 10px;
     margin-top: 2px;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   /* Submit / Action Buttons */
   .submit-btn {
     width: 100%;
     background: var(--accent);
-    color: #fff;
-    border: none;
+    color: var(--cream);
+    border: 3px solid var(--primary);
     padding: 18px;
     border-radius: 20px;
     font-family: 'Fredoka', sans-serif;
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 8px 20px rgba(255, 94, 126, 0.3);
-    transition: all 0.2s ease;
+    box-shadow: 4px 4px 0px var(--primary);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -507,21 +491,19 @@
   }
   .submit-btn:hover {
     background: var(--accent-hover);
-    box-shadow: 0 10px 24px rgba(255, 94, 126, 0.4);
-    transform: translateY(-2px);
   }
   .submit-btn:active {
-    transform: translateY(1px);
-    box-shadow: 0 4px 12px rgba(255, 94, 126, 0.2);
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--primary);
   }
 
   /* Receipt Summary styling */
   .receipt {
     background: #fff;
     border-radius: 24px;
-    border: 1px solid rgba(226, 232, 240, 0.8);
+    border: 3px solid var(--primary);
     padding: 24px 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    box-shadow: 5px 5px 0px var(--primary);
     position: relative;
     overflow: hidden;
   }
@@ -544,9 +526,10 @@
   .receipt-subtitle {
     font-size: 12px;
     color: var(--text-muted);
+    font-weight: 500;
   }
   .receipt-divider {
-    border-top: 2px dashed #E2E8F0;
+    border-top: 3px dashed var(--primary);
     margin: 16px 0;
   }
   .receipt-row {
@@ -557,10 +540,12 @@
   }
   .receipt-row .label {
     color: var(--text-muted);
+    font-weight: 500;
   }
   .receipt-row .val {
-    font-weight: 500;
+    font-weight: 600;
     text-align: right;
+    color: var(--primary);
   }
   .receipt-row.total {
     margin-top: 14px;
@@ -584,57 +569,63 @@
     width: 100%;
     background: #06C755;
     color: #fff;
-    border: none;
+    border: 3px solid var(--primary);
     padding: 16px;
     border-radius: 18px;
     font-family: 'Kanit', sans-serif;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    transition: all 0.2s ease;
-    box-shadow: 0 6px 16px rgba(6, 199, 85, 0.2);
+    box-shadow: 4px 4px 0px var(--primary);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
   }
   .line-btn:hover {
     background: #05B34C;
-    box-shadow: 0 8px 20px rgba(6, 199, 85, 0.3);
+  }
+  .line-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--primary);
   }
   .copy-btn {
     width: 100%;
-    background: var(--primary);
-    color: #fff;
-    border: none;
+    background: var(--cream);
+    color: var(--primary);
+    border: 3px solid var(--primary);
     padding: 16px;
     border-radius: 18px;
     font-family: 'Fredoka', sans-serif;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.2);
+    box-shadow: 4px 4px 0px var(--primary);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
   }
   .copy-btn:hover {
-    background: #4338CA;
-    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+    background: var(--primary-light);
+  }
+  .copy-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--primary);
   }
   .edit-btn {
     width: 100%;
     background: none;
     border: none;
-    color: var(--text-muted);
+    color: var(--primary);
     padding: 12px;
     font-family: 'Kanit', sans-serif;
     font-size: 14px;
     margin-top: 8px;
     cursor: pointer;
     text-decoration: underline;
-    transition: color 0.2s ease;
+    font-weight: 600;
   }
   .edit-btn:hover {
-    color: var(--primary);
+    color: var(--accent);
   }
 
   .hidden {
@@ -651,9 +642,8 @@
 
   <div class="topbar">
     <div class="logo-wrapper">
-      <div class="logo-glow"></div>
       <div class="logo-badge">
-        <img src="logo.png" alt="🧺" onerror="this.style.display='none';">
+        <img src="media__1783561142276.png" alt="🧺" onerror="this.style.display='none';">
         <span style="position: absolute; pointer-events: none;">🧺</span>
       </div>
     </div>
