@@ -4,274 +4,687 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <title>แจ้งฝากผ้า - Wash Me Pls Laundry</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --blue:#6EC6E9;
-    --blue-deep:#3f9bc7;
-    --card-border:#cdeaf9;
-    --red:#E8432F;
-    --red-dark:#c9331f;
-    --cream:#fdf8ee;
-    --text:#2b2b2b;
-    --gray:#6b7280;
-  }
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  button, label, .option{touch-action:manipulation;}
-  body{
-    margin:0;
-    font-family:'Kanit',sans-serif;
-    background:var(--blue);
-    color:var(--text);
-    padding-bottom:40px;
-  }
-  html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
-  .app{max-width:480px;margin:0 auto;padding:16px;width:100%;}
-
-  .topbar{
-    text-align:center;
-    padding:22px 16px 26px;
-    margin-bottom:18px;
-  }
-  .logo-badge{
-    width:92px;height:92px;border-radius:50%;
-    background:var(--red);
-    border:4px solid var(--cream);
-    display:flex;align-items:center;justify-content:center;
-    font-size:44px;
-    margin:0 auto 10px;
-    box-shadow:0 4px 0 rgba(0,0,0,0.15);
-    overflow:hidden;
-  }
-  .logo-badge img{
-    width:100%;height:100%;
-    object-fit:cover;
-    display:block;
-  }
-  .topbar h1{
-    margin:0;
-    font-family:'Fredoka',sans-serif;
-    font-size:22px;
-    letter-spacing:0.5px;
-    color:var(--cream);
-    -webkit-text-stroke:1.5px #1f2937;
-    text-stroke:1.5px #1f2937;
-  }
-  .topbar p{
-    margin:6px 0 0;
-    font-size:13px;
-    color:var(--cream);
-    font-weight:500;
+  :root {
+    --primary: #4F46E5;
+    --primary-light: #EEF2F6;
+    --accent: #FF5E7E;
+    --accent-hover: #E04D6C;
+    --accent-bg: #FFEBEF;
+    --bg-gradient: linear-gradient(135deg, #A5F3FC 0%, #C084FC 100%);
+    --card-bg: rgba(255, 255, 255, 0.92);
+    --card-border: rgba(255, 255, 255, 0.6);
+    --text-main: #2D3748;
+    --text-muted: #718096;
+    --success: #10B981;
+    --success-bg: #E6FBF4;
   }
 
-  .card{
-    background:#fff;
-    border:3px solid var(--card-border);
-    border-radius:20px;
-    padding:16px;
-    margin-bottom:14px;
-    box-shadow:0 4px 0 rgba(63,155,199,0.25);
-  }
-  .card h2{
-    display:flex;align-items:center;gap:8px;
-    font-size:15px;margin:0 0 12px;color:var(--blue-deep);
-    font-weight:600;
-  }
-  .step-num{
-    width:24px;height:24px;border-radius:50%;
-    background:var(--red);color:#fff;
-    display:flex;align-items:center;justify-content:center;
-    font-family:'Fredoka',sans-serif;
-    font-size:13px;flex-shrink:0;
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .option-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
+  body {
+    margin: 0;
+    font-family: 'Kanit', sans-serif;
+    background: var(--bg-gradient);
+    background-attachment: fixed;
+    color: var(--text-main);
+    min-height: 100vh;
+    padding-bottom: 60px;
+    position: relative;
+    overflow-x: hidden;
   }
-  .option{
-    position:relative;
-    border:2px solid var(--card-border);
-    border-radius:14px;
-    padding:10px 6px;
-    text-align:center;
-    font-size:13px;
+
+  /* Bubble Background */
+  .bubble-container {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .bubble {
+    position: absolute;
+    bottom: -100px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    backdrop-filter: blur(1px);
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
+    animation: rise 12s infinite ease-in;
+  }
+  @keyframes rise {
+    0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% { transform: translateY(-120vh) scale(1.2) rotate(360deg); opacity: 0; }
+  }
+
+  .app {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px 16px;
+    width: 100%;
+  }
+
+  /* Topbar */
+  .topbar {
+    text-align: center;
+    padding: 30px 16px 10px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .logo-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 16px;
+  }
+  .logo-badge {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 4px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    box-shadow: 0 8px 24px rgba(255, 94, 126, 0.3);
+    overflow: hidden;
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .logo-badge img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .logo-glow {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    filter: blur(8px);
+    z-index: -1;
+    transform: scale(1.1);
+  }
+  .topbar h1 {
+    margin: 0;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    letter-spacing: 0.5px;
+  }
+
+  /* Washing Machine Animation Visualizer (relocated to summary) */
+  .machine-visualizer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0 20px;
+  }
+  .washing-machine {
+    width: 75px;
+    height: 90px;
+    background: #fff;
+    border: 3px solid var(--primary);
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  }
+  .machine-top {
+    height: 20px;
+    border-bottom: 3px solid var(--primary);
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    justify-content: space-between;
+  }
+  .machine-dial {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .machine-display {
+    width: 28px;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 2px;
+    font-size: 6px;
+    font-family: monospace;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    font-weight: bold;
+  }
+  .machine-door {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 4px solid #94a3b8;
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #e0f2fe;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .water {
+    width: 100%;
+    height: 50%;
+    background: rgba(56, 189, 248, 0.6);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+  .spinning-clothes {
+    font-size: 20px;
+    animation: spin 1.5s linear infinite;
+    transform-origin: center;
+  }
+  @keyframes spin {
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Glassmorphism Cards */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    padding: 20px;
+    margin-bottom: 18px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(31, 38, 135, 0.12);
+  }
+  .card h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 17px;
+    margin: 0 0 16px;
+    color: var(--primary);
+    font-weight: 600;
+  }
+  .step-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+    box-shadow: 0 3px 8px rgba(255, 94, 126, 0.2);
+  }
+
+  /* Service Selection Grid */
+  .option-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .option {
+    position: relative;
+    border: 2px solid rgba(226, 232, 240, 0.8);
+    background: #fff;
+    border-radius: 16px;
+    padding: 14px 8px;
+    text-align: center;
+    font-size: 13.5px;
+    font-weight: 500;
     cursor:pointer;
-    transition:all .15s ease;
-    display:flex;align-items:center;justify-content:center;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
-  .option input{position:absolute;opacity:0;pointer-events:none;}
-  .option span{line-height:1.4;}
-  .option input:checked + span{font-weight:600;}
-  .option:has(input:checked){
-    border-color:var(--red);
-    background:#fdeceA;
-    color:var(--red-dark);
+  .option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
   }
-  .checkbox-option{
-    grid-column:1/-1;
-    justify-content:flex-start;
-    gap:10px;
-    text-align:left;
-    padding:12px;
+  .option .icon {
+    font-size: 26px;
+    transition: transform 0.2s ease;
   }
-  .hint{
-    font-size:12px;color:var(--gray);margin:8px 2px 0;
+  .option:hover .icon {
+    transform: scale(1.15);
   }
-  .free-tag{
-    display:inline-block;
-    background:#e7f8ec;
-    color:#1a8a4a;
-    font-size:11px;
-    font-weight:600;
-    padding:2px 8px;
-    border-radius:20px;
-    margin-left:6px;
+  .option input:checked + span {
+    font-weight: 600;
+  }
+  .option:has(input:checked) {
+    border-color: var(--accent);
+    background: var(--accent-bg);
+    color: var(--accent-hover);
+    box-shadow: 0 6px 16px rgba(255, 94, 126, 0.15);
   }
 
-  .qty-row{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    border:2px solid var(--card-border);
-    border-radius:14px;
-    padding:10px 12px;
+  /* Checkbox Option Style */
+  .checkbox-option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 16px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    border: 2px solid rgba(226, 232, 240, 0.8);
+    background: #fff;
+    border-radius: 18px;
+    transition: all 0.2s ease;
   }
-  .qty-row + .qty-row{margin-top:8px;}
-  .qty-label{font-size:13.5px;line-height:1.4;}
-  .qty-label small{display:block;color:var(--gray);font-size:11.5px;margin-top:2px;}
-  .qty-control{
-    display:flex;align-items:center;gap:10px;flex-shrink:0;
+  .checkbox-option input {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    accent-color: var(--accent);
+    cursor: pointer;
   }
-  .qty-btn{
-    width:36px;height:36px;
-    border:none;border-radius:50%;
-    background:var(--red);color:#fff;
-    font-family:'Fredoka',sans-serif;
-    font-size:18px;font-weight:600;
-    cursor:pointer;
-    display:flex;align-items:center;justify-content:center;
-    line-height:1;
-    flex-shrink:0;
-    touch-action:manipulation;
-  }
-  .qty-btn:active{transform:scale(0.92);}
-  .qty-btn.minus{background:#cbd5e1;color:#334155;}
-  .qty-value{
-    min-width:20px;text-align:center;
-    font-family:'Fredoka',sans-serif;
-    font-size:15px;font-weight:600;
+  .checkbox-option:has(input:checked) {
+    border-color: var(--success);
+    background: var(--success-bg);
   }
 
-  input[type="text"], input[type="tel"], select, textarea{
-    width:100%;
-    border:2px solid var(--card-border);
-    border-radius:12px;
-    padding:12px;
-    font-family:'Kanit',sans-serif;
-    font-size:16px;
-    margin-bottom:10px;
-    color:var(--text);
-    -webkit-appearance:none;
-    appearance:none;
-    background:#fff;
+  .hint {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin: 10px 2px 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
   }
-  select{
-    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><path d='M5 7l5 6 5-6' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
-    background-repeat:no-repeat;
-    background-position:right 12px center;
-    padding-right:36px;
+  .free-tag {
+    display: inline-block;
+    background: var(--success);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-left: auto;
   }
-  textarea{resize:vertical;min-height:60px;margin-bottom:0;}
-  input:focus, textarea:focus{outline:none;border-color:var(--blue-deep);}
 
-  .submit-btn{
-    width:100%;
-    background:var(--red);
-    color:#fff;
-    border:none;
-    border-bottom:4px solid var(--red-dark);
-    padding:16px;
-    border-radius:16px;
-    font-family:'Fredoka',sans-serif;
-    font-size:17px;
-    font-weight:600;
-    cursor:pointer;
+  /* Quantity Rows */
+  .qty-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: #fff;
+    border: 2px solid rgba(226, 232, 240, 0.8);
+    border-radius: 18px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    transition: border-color 0.2s ease;
   }
-  .submit-btn:active{transform:translateY(2px);border-bottom-width:2px;}
+  .qty-row:focus-within {
+    border-color: var(--primary);
+  }
+  .qty-row:last-of-type {
+    margin-bottom: 0;
+  }
+  .qty-label {
+    font-size: 14.5px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .qty-label small {
+    display: block;
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: 2px;
+  }
+  .qty-control {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .qty-btn {
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(255, 94, 126, 0.25);
+    transition: transform 0.1s ease, background-color 0.2s ease;
+  }
+  .qty-btn:hover {
+    background: var(--accent-hover);
+  }
+  .qty-btn:active {
+    transform: scale(0.9);
+  }
+  .qty-btn.minus {
+    background: #E2E8F0;
+    color: #4A5568;
+    box-shadow: none;
+  }
+  .qty-btn.minus:hover {
+    background: #CBD5E1;
+  }
+  .qty-value {
+    min-width: 24px;
+    text-align: center;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+  }
 
-  .summary pre{
-    white-space:pre-wrap;
-    font-family:'Kanit',sans-serif;
-    background:#f4fbff;
-    padding:14px;
-    border-radius:14px;
-    font-size:13.5px;
-    line-height:1.7;
-    color:var(--text);
-    border:2px dashed var(--card-border);
+  /* Inputs, Select, Textarea */
+  input[type="text"], input[type="tel"], select, textarea {
+    width: 100%;
+    border: 2px solid rgba(226, 232, 240, 0.8);
+    border-radius: 16px;
+    padding: 14px;
+    font-family: 'Kanit', sans-serif;
+    font-size: 15px;
+    margin-bottom: 12px;
+    color: var(--text-main);
+    background: #fff;
+    outline: none;
+    transition: all 0.2s ease;
   }
-  .copy-btn{
-    width:100%;
-    background:var(--blue-deep);
-    color:#fff;
-    border:none;
-    border-bottom:4px solid #2c7ba3;
-    padding:15px;
-    border-radius:16px;
-    font-family:'Fredoka',sans-serif;
-    font-size:15px;
-    font-weight:600;
-    margin-top:10px;
-    cursor:pointer;
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
   }
-  .copy-btn:active{transform:translateY(2px);border-bottom-width:2px;}
-  .edit-btn{
-    width:100%;
-    background:none;
-    border:none;
-    color:var(--gray);
-    padding:12px;
-    font-family:'Kanit',sans-serif;
-    font-size:14px;
-    margin-top:6px;
-    cursor:pointer;
-    text-decoration:underline;
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23718096' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 42px;
   }
-  .hidden{display:none;}
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+    margin-bottom: 0;
+  }
+
+  /* Live Pricing sticky bar */
+  .live-price-bar {
+    position: sticky;
+    bottom: 16px;
+    z-index: 100;
+    background: rgba(79, 70, 229, 0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 14px 20px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3);
+    margin-bottom: 16px;
+    animation: fadeInUp 0.4s ease-out;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .live-price-info {
+    display: flex;
+    flex-direction: column;
+  }
+  .live-price-label {
+    font-size: 12px;
+    opacity: 0.85;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .live-price-amount {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  /* Estimated wash time indicator */
+  .wash-time-est {
+    font-size: 11px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-top: 2px;
+    font-weight: 500;
+  }
+
+  /* Submit / Action Buttons */
+  .submit-btn {
+    width: 100%;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 18px;
+    border-radius: 20px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(255, 94, 126, 0.3);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .submit-btn:hover {
+    background: var(--accent-hover);
+    box-shadow: 0 10px 24px rgba(255, 94, 126, 0.4);
+    transform: translateY(-2px);
+  }
+  .submit-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 12px rgba(255, 94, 126, 0.2);
+  }
+
+  /* Receipt Summary styling */
+  .receipt {
+    background: #fff;
+    border-radius: 24px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    padding: 24px 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+  }
+  .receipt::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 6px;
+    background: repeating-linear-gradient(90deg, var(--accent) 0, var(--accent) 8px, var(--primary) 8px, var(--primary) 16px);
+  }
+  .receipt-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .receipt-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0 0 4px 0;
+  }
+  .receipt-subtitle {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .receipt-divider {
+    border-top: 2px dashed #E2E8F0;
+    margin: 16px 0;
+  }
+  .receipt-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  .receipt-row .label {
+    color: var(--text-muted);
+  }
+  .receipt-row .val {
+    font-weight: 500;
+    text-align: right;
+  }
+  .receipt-row.total {
+    margin-top: 14px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .hidden-textarea {
+    position: absolute;
+    left: -9999px;
+  }
+
+  /* Action Buttons for copy/share */
+  .summary-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .line-btn {
+    width: 100%;
+    background: #06C755;
+    color: #fff;
+    border: none;
+    padding: 16px;
+    border-radius: 18px;
+    font-family: 'Kanit', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    box-shadow: 0 6px 16px rgba(6, 199, 85, 0.2);
+  }
+  .line-btn:hover {
+    background: #05B34C;
+    box-shadow: 0 8px 20px rgba(6, 199, 85, 0.3);
+  }
+  .copy-btn {
+    width: 100%;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 16px;
+    border-radius: 18px;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.2);
+  }
+  .copy-btn:hover {
+    background: #4338CA;
+    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+  }
+  .edit-btn {
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    padding: 12px;
+    font-family: 'Kanit', sans-serif;
+    font-size: 14px;
+    margin-top: 8px;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+  }
+  .edit-btn:hover {
+    color: var(--primary);
+  }
+
+  .hidden {
+    display: none !important;
+  }
 </style>
 </head>
 <body>
+
+<!-- Dynamic Background Bubbles -->
+<div class="bubble-container" id="bubbleContainer"></div>
+
 <div class="app">
 
   <div class="topbar">
-    <div class="logo-badge"><img src="logo.png" alt="Wash Me Pls Laundry logo" onerror="this.parentElement.textContent='🧺'"></div>
+    <div class="logo-wrapper">
+      <div class="logo-glow"></div>
+      <div class="logo-badge">
+        <img src="logo.png" alt="🧺" onerror="this.style.display='none';">
+        <span style="position: absolute; pointer-events: none;">🧺</span>
+      </div>
+    </div>
     <h1>WASH ME PLS LAUNDRY</h1>
-    <p>แจ้งฝากผ้าออนไลน์ · สายขี้เกียจพิมพ์</p>
   </div>
 
   <form id="orderForm">
 
+    <!-- Step 1: Service -->
     <section class="card">
       <h2><span class="step-num">1</span> เลือกบริการ</h2>
       <div class="option-grid">
         <label class="option">
           <input type="radio" name="service" value="wash" data-label="ซักอย่างเดียว">
-          <span>🧼<br>ซักอย่างเดียว</span>
+          <span class="icon">🧼</span>
+          <span>ซักอย่างเดียว</span>
         </label>
         <label class="option">
           <input type="radio" name="service" value="dry" data-label="อบอย่างเดียว">
-          <span>🔥<br>อบอย่างเดียว</span>
+          <span class="icon">🔥</span>
+          <span>อบอย่างเดียว</span>
         </label>
         <label class="option">
           <input type="radio" name="service" value="both" data-label="ซัก + อบ" checked>
-          <span>🧼🔥<br>ซัก+อบ</span>
+          <span class="icon">🧺✨</span>
+          <span>ซัก+อบ</span>
         </label>
       </div>
     </section>
 
+    <!-- Step 2: Basket Sizes -->
     <section class="card">
       <h2><span class="step-num">2</span> ขนาดผ้าโดยประมาณ (ขนาดตะกร้า)</h2>
       <div class="qty-row">
@@ -286,7 +699,7 @@
         <div class="qty-label">ตะกร้า M<small>60 บาท/ใบ</small></div>
         <div class="qty-control">
           <button type="button" class="qty-btn minus" data-target="sizeMQty" data-step="-1">−</button>
-          <span class="qty-value" id="sizeMQty">1</span>
+          <span class="qty-value" id="sizeMQty">0</span>
           <button type="button" class="qty-btn" data-target="sizeMQty" data-step="1">+</button>
         </div>
       </div>
@@ -298,9 +711,10 @@
           <button type="button" class="qty-btn" data-target="sizeLQty" data-step="1">+</button>
         </div>
       </div>
-      <p class="hint">*เลือกได้มากกว่า 1 ขนาด ถ้าผ้าเยอะกว่าตะกร้าเดียว</p>
+      <p class="hint">💡 *เลือกได้มากกว่า 1 ขนาด หากมีผ้าจำนวนมาก</p>
     </section>
 
+    <!-- Step 3: Add-ons -->
     <section class="card">
       <h2><span class="step-num">3</span> น้ำยาซัก / น้ำยาปรับผ้านุ่ม</h2>
       <div class="qty-row">
@@ -312,61 +726,207 @@
         </div>
       </div>
       <div class="qty-row">
-        <div class="qty-label">💧 น้ำยาปรับผ้านุ่มของร้าน<small>ซองละ 10 บาท</small></div>
+        <div class="qty-label">🌸 น้ำยาปรับผ้านุ่มของร้าน<small>ซองละ 10 บาท</small></div>
         <div class="qty-control">
           <button type="button" class="qty-btn minus" data-target="softenerQty" data-step="-1">−</button>
           <span class="qty-value" id="softenerQty">0</span>
           <button type="button" class="qty-btn" data-target="softenerQty" data-step="1">+</button>
         </div>
       </div>
-      <p class="hint">*ถ้านำน้ำยา/ปรับผ้านุ่มมาเองไม่คิดเพิ่มค่ะ กดจำนวนซองที่ต้องการให้ร้านเตรียมให้</p>
+      <p class="hint">💡 *หากนำน้ำยามาเองไม่มีค่าใช้จ่ายเพิ่มค่ะ</p>
     </section>
 
+    <!-- Step 4: Special care -->
     <section class="card">
-      <h2><span class="step-num">4</span> ถุงเท้า / กางเกงใน</h2>
+      <h2><span class="step-num">4</span> การแยกชิ้นพิเศษ</h2>
       <label class="option checkbox-option">
         <input type="checkbox" id="socks">
-        <span>🧦 มีถุงเท้า/กางเกงในที่ต้องแยกซัก <span class="free-tag">ไม่คิดเพิ่ม</span></span>
+        <span>🧦 มีถุงเท้า/กางเกงในที่ต้องแยกซัก</span>
+        <span class="free-tag">ฟรี! ไม่บวกเพิ่ม</span>
       </label>
     </section>
 
+    <!-- Step 5: Pickup Time -->
     <section class="card">
       <h2><span class="step-num">5</span> เวลาที่ต้องการมารับผ้า</h2>
       <select id="pickupTime">
         <option value="">-- เลือกเวลา --</option>
       </select>
-      <p class="hint">*ร้านเปิด 24 ชม. แต่ให้มารับผ้าได้ไม่เกิน 19:00 น.</p>
+      <p class="hint">⏰ *ร้านเปิด 24 ชม. แต่สามารถรับผ้าได้ไม่เกิน 19:00 น.</p>
     </section>
 
+    <!-- Step 6: Contact -->
     <section class="card">
       <h2><span class="step-num">6</span> ข้อมูลติดต่อ</h2>
       <input type="text" id="name" placeholder="ชื่อลูกค้า" required>
       <input type="tel" id="phone" placeholder="เบอร์โทร" required>
-      <textarea id="note" placeholder="หมายเหตุเพิ่มเติม (ถ้ามี) เช่น ผ้าสีตกง่าย ระวังผ้าเปื้อนหนัก"></textarea>
+      <textarea id="note" placeholder="หมายเหตุเพิ่มเติม (ถ้ามี) เช่น ผ้าสีตกง่าย, ระวังกระดุมชำรุด"></textarea>
     </section>
 
-    <button type="submit" class="submit-btn">ยืนยันรายการ ✅</button>
+    <!-- Live Pricing Bar -->
+    <div class="live-price-bar">
+      <div class="live-price-info">
+        <span class="live-price-label">ยอดรวมประมาณ</span>
+        <span class="live-price-amount" id="livePrice">0 ฿</span>
+        <span class="wash-time-est" id="timeEst">เวลาซักประมาณ: 0 นาที</span>
+      </div>
+      <button type="submit" class="submit-btn" style="width: auto; padding: 10px 24px; font-size: 15px; box-shadow: none;">
+        ยืนยันรายการ 🧺
+      </button>
+    </div>
+
   </form>
 
-  <div id="summary" class="card summary hidden">
-    <h2>📋 สรุปรายการฝากผ้า</h2>
-    <pre id="summaryText"></pre>
-    <button id="copyBtn" type="button" class="copy-btn">📋 คัดลอกข้อความ</button>
-    <button id="editBtn" type="button" class="edit-btn">← แก้ไขรายการ</button>
+  <!-- Summary Screen -->
+  <div id="summary" class="hidden">
+    
+    <!-- Relocated Machine Visualizer inside receipt screen -->
+    <div class="machine-visualizer">
+      <div class="washing-machine">
+        <div class="machine-top">
+          <div class="machine-dial"></div>
+          <div class="machine-display" id="machineTime">00:00</div>
+        </div>
+        <div class="machine-door">
+          <div class="water"></div>
+          <span class="spinning-clothes">🌀</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="receipt">
+      <div class="receipt-header">
+        <div class="receipt-title">WASH ME PLS LAUNDRY</div>
+        <div class="receipt-subtitle">ใบเสร็จสรุปรายการฝากผ้า</div>
+      </div>
+      <div class="receipt-divider"></div>
+      
+      <div class="receipt-row">
+        <span class="label">ชื่อลูกค้า:</span>
+        <span class="val" id="recName">-</span>
+      </div>
+      <div class="receipt-row">
+        <span class="label">เบอร์โทร:</span>
+        <span class="val" id="recPhone">-</span>
+      </div>
+      <div class="receipt-row">
+        <span class="label">บริการ:</span>
+        <span class="val" id="recService">-</span>
+      </div>
+      <div class="receipt-row">
+        <span class="label">ขนาดตะกร้า:</span>
+        <span class="val" id="recBaskets">-</span>
+      </div>
+      <div class="receipt-row">
+        <span class="label">น้ำยาซัก:</span>
+        <span class="val" id="recDetergent">-</span>
+      </div>
+      <div class="receipt-row">
+        <span class="label">น้ำยาปรับผ้านุ่ม:</span>
+        <span class="val" id="recSoftener">-</span>
+      </div>
+      <div class="receipt-row">
+        <span class="label">ถุงเท้า/กางเกงใน:</span>
+        <span class="val" id="recSocks">-</span>
+      </div>
+      <div class="receipt-row">
+        <span class="label">เวลารับผ้า:</span>
+        <span class="val" id="recPickup">-</span>
+      </div>
+      <div class="receipt-row">
+        <span class="label">หมายเหตุ:</span>
+        <span class="val" id="recNote">-</span>
+      </div>
+      
+      <div class="receipt-divider"></div>
+      <div class="receipt-row total">
+        <span>ยอดรวมทั้งสิ้น:</span>
+        <span id="recTotal">0 บาท</span>
+      </div>
+    </div>
+
+    <!-- PromptPay QR Card (Dynamic) -->
+    <div class="card payment-card" style="margin-top: 18px; text-align: center; background: #fff;">
+      <h3 style="margin: 0 0 10px; font-size: 16px; color: var(--primary); display: flex; align-items: center; justify-content: center; gap: 6px;">
+        📱 สแกนจ่ายผ่านพร้อมเพย์ (PromptPay)
+      </h3>
+      <div style="background: #002D62; color: #fff; padding: 4px 10px; border-radius: 6px; display: inline-block; font-size: 11px; font-weight: bold; margin-bottom: 12px; font-family: 'Fredoka', sans-serif;">
+        PROMPT PAY
+      </div>
+      <div>
+        <img id="qrImage" src="" alt="PromptPay QR Code" style="max-width: 200px; width: 100%; border: 1px solid #e2e8f0; border-radius: 16px; padding: 10px; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
+      </div>
+      <p style="font-size: 13.5px; color: var(--text-muted); margin: 12px 0 8px;">
+        เลขพร้อมเพย์ของร้าน: <span id="promptPayIdText" style="font-weight: bold; color: var(--text-main); letter-spacing: 0.5px;">-</span>
+      </p>
+      <button id="copyPromptPayBtn" type="button" style="background: var(--primary-light); border: none; color: var(--primary); padding: 8px 14px; border-radius: 12px; font-size: 12.5px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">
+        📋 คัดลอกเลขพร้อมเพย์ (สแกนรูปในจอไม่ได้)
+      </button>
+    </div>
+
+    <!-- Hidden element for clipboard copy text -->
+    <textarea id="summaryText" class="hidden-textarea" readonly></textarea>
+    
+    <div class="summary-actions">
+      <!-- Direct Share on LINE -->
+      <button id="lineBtn" type="button" class="line-btn">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="flex-shrink:0;">
+          <path d="M24 10.3c0-4.8-5.4-8.8-12-8.8S0 5.5 0 10.3c0 4.3 4.3 7.9 10.1 8.7 0.4 0.1 0.9 0.4 1 1 0.1 0.6 0 1.5-.1 2.1l-.1.8c-.1 0.4.1 0.6.4 0.4.3-.2 2.2-1.6 3.1-2.7 2.3-2 3.9-4.8 3.9-7.3z"/>
+        </svg>
+        ส่งรายการฝากผ้าเข้าแชท LINE 💬
+      </button>
+      <button id="copyBtn" type="button" class="copy-btn">📋 คัดลอกข้อความสำหรับส่งเอง</button>
+      <button id="editBtn" type="button" class="edit-btn">← ย้อนกลับไปแก้ไขรายการ</button>
+    </div>
   </div>
 
 </div>
 
 <script>
+  // พร้อมเพย์ของร้าน (เปลี่ยนเป็นเบอร์มือถือ หรือ เลขบัตรประชาชนของร้านคุณได้เลย)
+  const MERCHANT_PROMPTPAY_ID = '0809614423';
+
   const form = document.getElementById('orderForm');
   const summary = document.getElementById('summary');
   const summaryText = document.getElementById('summaryText');
   const copyBtn = document.getElementById('copyBtn');
+  const lineBtn = document.getElementById('lineBtn');
   const editBtn = document.getElementById('editBtn');
+  const livePriceEl = document.getElementById('livePrice');
+  const timeEstEl = document.getElementById('timeEst');
+  const machineTime = document.getElementById('machineTime');
+  const qrImage = document.getElementById('qrImage');
+  const promptPayIdText = document.getElementById('promptPayIdText');
+  const copyPromptPayBtn = document.getElementById('copyPromptPayBtn');
 
+  // Format and show merchant promptpay ID
+  if (MERCHANT_PROMPTPAY_ID.length === 10) {
+    promptPayIdText.textContent = MERCHANT_PROMPTPAY_ID.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+  } else {
+    promptPayIdText.textContent = MERCHANT_PROMPTPAY_ID;
+  }
+
+  // Dynamic Background Bubble Generator
+  (function createBubbles() {
+    const container = document.getElementById('bubbleContainer');
+    const bubbleCount = 15;
+    for(let i = 0; i < bubbleCount; i++) {
+      const bubble = document.createElement('div');
+      bubble.classList.add('bubble');
+      const size = Math.random() * 60 + 20;
+      bubble.style.width = `${size}px`;
+      bubble.style.height = `${size}px`;
+      bubble.style.left = `${Math.random() * 100}%`;
+      bubble.style.animationDelay = `${Math.random() * 8}s`;
+      bubble.style.animationDuration = `${Math.random() * 8 + 6}s`;
+      container.appendChild(bubble);
+    }
+  })();
+
+  // Time Option Populater
   (function populatePickupTimes(){
     const select = document.getElementById('pickupTime');
-    for(let h = 0; h <= 19; h++){
+    for(let h = 8; h <= 19; h++){
       for(let m = 0; m < 60; m += 30){
         if(h === 19 && m > 0) break;
         const hh = String(h).padStart(2, '0');
@@ -380,6 +940,48 @@
     }
   })();
 
+  // Helper for calculations
+  function calculateTotal() {
+    const sizeSQty = parseInt(document.getElementById('sizeSQty').textContent, 10);
+    const sizeMQty = parseInt(document.getElementById('sizeMQty').textContent, 10);
+    const sizeLQty = parseInt(document.getElementById('sizeLQty').textContent, 10);
+    const detergentQty = parseInt(document.getElementById('detergentQty').textContent, 10);
+    const softenerQty = parseInt(document.getElementById('softenerQty').textContent, 10);
+
+    const basketTotal = (sizeSQty * 50) + (sizeMQty * 60) + (sizeLQty * 70);
+    const detergentTotal = detergentQty * 10;
+    const softenerTotal = softenerQty * 10;
+
+    return basketTotal + detergentTotal + softenerTotal;
+  }
+
+  function calculateWashTime() {
+    const service = document.querySelector('input[name="service"]:checked').value;
+    const sizeSQty = parseInt(document.getElementById('sizeSQty').textContent, 10);
+    const sizeMQty = parseInt(document.getElementById('sizeMQty').textContent, 10);
+    const sizeLQty = parseInt(document.getElementById('sizeLQty').textContent, 10);
+    
+    const totalBaskets = sizeSQty + sizeMQty + sizeLQty;
+    if (totalBaskets === 0) return 0;
+
+    let baseTime = 0;
+    if (service === 'wash') baseTime = 40;
+    else if (service === 'dry') baseTime = 45;
+    else baseTime = 85;
+
+    const extraTime = Math.max(0, totalBaskets - 1) * 10;
+    return baseTime + extraTime;
+  }
+
+  function updateLiveStats() {
+    const total = calculateTotal();
+    const time = calculateWashTime();
+
+    livePriceEl.textContent = `${total} ฿`;
+    timeEstEl.textContent = `เวลาซักประมาณ: ${time} นาที`;
+  }
+
+  // Handle Qty Buttons Click
   document.querySelectorAll('.qty-btn').forEach(btn => {
     btn.addEventListener('click', function(){
       const targetEl = document.getElementById(this.dataset.target);
@@ -387,9 +989,19 @@
       let val = parseInt(targetEl.textContent, 10) + step;
       if(val < 0) val = 0;
       targetEl.textContent = val;
+      updateLiveStats();
     });
   });
 
+  // Watch for service radio modifications
+  document.querySelectorAll('input[name="service"]').forEach(radio => {
+    radio.addEventListener('change', updateLiveStats);
+  });
+
+  // Calculate live initial stats
+  updateLiveStats();
+
+  // Form Submit Handler
   form.addEventListener('submit', function(e){
     e.preventDefault();
 
@@ -415,35 +1027,40 @@
       return;
     }
 
-    if(pickupTime && pickupTime > '19:00'){
-      alert('ร้านให้มารับผ้าได้ไม่เกิน 19:00 น. ค่ะ กรุณาเลือกเวลาใหม่');
-      return;
-    }
+    const total = calculateTotal();
+    const washTime = calculateWashTime();
 
-    const sizePriceS = sizeSQty * 50;
-    const sizePriceM = sizeMQty * 60;
-    const sizePriceL = sizeLQty * 70;
-    const basketTotal = sizePriceS + sizePriceM + sizePriceL;
-    const detergentPrice = detergentQty * 10;
-    const softenerPrice = softenerQty * 10;
-    const total = basketTotal + detergentPrice + softenerPrice;
-
+    // Prepare text representation for clipboard & LINE sharing
     const basketLines = [];
-    if(sizeSQty > 0) basketLines.push(`S x${sizeSQty} (${sizePriceS} บาท)`);
-    if(sizeMQty > 0) basketLines.push(`M x${sizeMQty} (${sizePriceM} บาท)`);
-    if(sizeLQty > 0) basketLines.push(`L x${sizeLQty} (${sizePriceL} บาท)`);
+    if(sizeSQty > 0) basketLines.push(`S x${sizeSQty}`);
+    if(sizeMQty > 0) basketLines.push(`M x${sizeMQty}`);
+    if(sizeLQty > 0) basketLines.push(`L x${sizeLQty}`);
     const basketLine = basketLines.join(', ');
 
-    const detergentLine = detergentQty > 0
-      ? `ใช้ของร้าน ${detergentQty} ซอง (+${detergentPrice} บาท)`
-      : 'นำมาเอง';
-    const softenerLine = softenerQty > 0
-      ? `ใช้ของร้าน ${softenerQty} ซอง (+${softenerPrice} บาท)`
-      : 'นำมาเอง';
-    const socksLine = socks ? 'มี (ไม่คิดเพิ่ม)' : 'ไม่มี';
+    const detergentLine = detergentQty > 0 ? `${detergentQty} ซอง` : 'นำมาเอง';
+    const softenerLine = softenerQty > 0 ? `${softenerQty} ซอง` : 'นำมาเอง';
+    const socksLine = socks ? 'มี (แยกซัก)' : 'ไม่มี';
     const pickupLine = pickupTime ? `${pickupTime} น.` : 'ยังไม่ระบุ';
 
-    const text =
+    // Populate Receipt UI
+    document.getElementById('recName').textContent = name;
+    document.getElementById('recPhone').textContent = phone;
+    document.getElementById('recService').textContent = service.dataset.label;
+    document.getElementById('recBaskets').textContent = basketLine;
+    document.getElementById('recDetergent').textContent = detergentLine;
+    document.getElementById('recSoftener').textContent = softenerLine;
+    document.getElementById('recSocks').textContent = socksLine;
+    document.getElementById('recPickup').textContent = pickupLine;
+    document.getElementById('recNote').textContent = note || '-';
+    document.getElementById('recTotal').textContent = `${total} บาท`;
+
+    // Display Wash Time on visualizer machine screen
+    machineTime.textContent = `${String(Math.floor(washTime / 60)).padStart(2, '0')}:${String(washTime % 60).padStart(2, '0')}`;
+
+    // Set QR code src dynamically based on final total
+    qrImage.src = `https://promptpay.io/${MERCHANT_PROMPTPAY_ID}/${total}.png`;
+
+    const rawSummaryText = 
 `📋 แจ้งฝากผ้า - Wash Me Pls Laundry
 ชื่อ: ${name}
 เบอร์โทร: ${phone}
@@ -452,21 +1069,36 @@
 น้ำยาซัก: ${detergentLine}
 น้ำยาปรับผ้านุ่ม: ${softenerLine}
 ถุงเท้า/กางเกงใน: ${socksLine}
-เวลาที่ต้องการมารับผ้า: ${pickupLine}
+เวลารับผ้า: ${pickupLine}
 หมายเหตุ: ${note || '-'}
 
-💰 รวมประมาณ ${total} บาท`;
+💰 ยอดรวมประมาณ: ${total} บาท`;
 
-    summaryText.textContent = text;
+    summaryText.value = rawSummaryText;
+
+    // Show summary screen with animation
     form.classList.add('hidden');
     summary.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
+  // Share to LINE Directly
+  lineBtn.addEventListener('click', function(){
+    const text = summaryText.value;
+    const lineUrl = `https://line.me/R/msg/text/?${encodeURIComponent(text)}`;
+    window.open(lineUrl, '_blank');
+  });
+
+  // Clipboard Copier
   copyBtn.addEventListener('click', function(){
-    const text = summaryText.textContent;
+    const text = summaryText.value;
     const done = () => {
-      copyBtn.textContent = '✅ คัดลอกแล้ว! ไปวางในแชทไลน์ได้เลย';
-      setTimeout(()=>{ copyBtn.textContent = '📋 คัดลอกข้อความ'; }, 2500);
+      copyBtn.textContent = '✅ คัดลอกเรียบร้อย!';
+      copyBtn.style.backgroundColor = '#10B981';
+      setTimeout(()=>{ 
+        copyBtn.textContent = '📋 คัดลอกข้อความสำหรับส่งเอง'; 
+        copyBtn.style.backgroundColor = '';
+      }, 2500);
     };
     if(navigator.clipboard && navigator.clipboard.writeText){
       navigator.clipboard.writeText(text).then(done).catch(()=>{
@@ -474,6 +1106,21 @@
       });
     } else {
       fallbackCopy(text); done();
+    }
+  });
+
+  // Copy PromptPay number to clipboard
+  copyPromptPayBtn.addEventListener('click', function(){
+    const done = () => {
+      copyPromptPayBtn.textContent = '✅ คัดลอกเลขพร้อมเพย์แล้ว!';
+      setTimeout(()=>{ copyPromptPayBtn.textContent = '📋 คัดลอกเลขพร้อมเพย์ (สแกนรูปในจอไม่ได้)'; }, 2000);
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(MERCHANT_PROMPTPAY_ID).then(done).catch(()=>{
+        fallbackCopy(MERCHANT_PROMPTPAY_ID); done();
+      });
+    } else {
+      fallbackCopy(MERCHANT_PROMPTPAY_ID); done();
     }
   });
 
